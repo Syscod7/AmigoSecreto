@@ -1,128 +1,124 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>🎁 Amigo Secreto</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #fdfbfb, #ebedee);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<meta charset="UTF-8">
+<title>🎁 Regalo de Amigo Secreto</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #fdfbfb, #ebedee);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
 
-        .card {
-            background: white;
-            padding: 25px;
-            width: 380px;
-            border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-            text-align: center;
-        }
+    .card {
+        background: white;
+        padding: 25px;
+        width: 380px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+        text-align: center;
+    }
 
-        img {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
+    input, button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
 
-        h2 {
-            color: #8e44ad;
-        }
+    button {
+        background-color: #8e44ad;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
 
-        textarea, button {
-            width: 100%;
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
+    button:hover {
+        background-color: #732d91;
+    }
 
-        button {
-            background-color: #8e44ad;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
+    img {
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
 
-        button:hover {
-            background-color: #732d91;
-        }
+    .bendicion {
+        margin-top: 15px;
+        font-style: italic;
+        color: #2c3e50;
+    }
 
-        .bendicion {
-            margin-top: 15px;
-            font-style: italic;
-            color: #2c3e50;
-        }
+    .whatsapp {
+        margin-top: 15px;
+        display: inline-block;
+        background-color: #25D366;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+    }
 
-        .link {
-            margin-top: 10px;
-            font-size: 14px;
-            word-break: break-all;
-            color: #2980b9;
-        }
-    </style>
+    .whatsapp:hover {
+        background-color: #1ebe57;
+    }
+</style>
 </head>
 <body>
 
-<div class="card" id="contenedor">
-    <img src="img/navidad.jpg" alt="Bendición de Navidad">
+<div class="card" id="login">
+    <h2>🎁 Amigo Secreto</h2>
+    <p>Ingresa tu clave:</p>
+    <input type="password" id="clave" placeholder="Tu clave secreta">
+    <button onclick="validarClave()">Ingresar</button>
+</div>
 
-    <h2>💝 Amigo Secreto</h2>
-
-    <p>Escribe tu mensaje:</p>
-    <textarea id="mensaje" rows="4"
-        placeholder="Que Dios te bendiga y llene tu vida de paz y amor..."></textarea>
-
-    <button onclick="generarLink()">Generar link</button>
-
-    <div class="link" id="link"></div>
-    <div class="bendicion" id="resultado"></div>
+<div class="card" id="regalo" style="display:none;">
+    <h2>💝 Tu Regalo Virtual</h2>
+    <img id="foto" src="" alt="Foto del amigo secreto">
+    <p id="mensaje"></p>
+    <div class="bendicion">
+        ✝️ Que Dios te bendiga, te guarde y llene tu vida de amor y alegría.  
+        <br><strong>Números 6:24-26</strong>
+    </div>
+    <a id="whatsapp" class="whatsapp" href="#" target="_blank">🙏 Agradecer en WhatsApp</a>
 </div>
 
 <script>
-    function generarLink() {
-        const mensaje = document.getElementById("mensaje").value;
-
-        if (mensaje.trim() === "") {
-            alert("Escribe un mensaje primero 😊");
-            return;
+    // Claves y datos de los amigos
+    const amigoSecreto = {
+        "75890600": {
+            mensaje: "Querido amigo, que la paz y el amor de Dios te acompañen siempre.",
+            foto: "img/amigo1.jpg",
+            whatsapp: "51922857548" // tu número para recibir mensaje
+        },
+        "75890600": {
+            mensaje: "Te deseo muchas bendiciones y alegría en tu día.",
+            foto: "img/amigo2.jpg",
+            whatsapp: "51922857548"
         }
+    };
 
-        const mensajeCodificado = encodeURIComponent(mensaje);
-        const url = `${window.location.origin}${window.location.pathname}?msg=${mensajeCodificado}`;
+    function validarClave() {
+        const clave = document.getElementById("clave").value;
+        if(amigoSecreto[clave]){
+            document.getElementById("login").style.display = "none";
+            document.getElementById("regalo").style.display = "block";
+            document.getElementById("mensaje").innerText = amigoSecreto[clave].mensaje;
+            document.getElementById("foto").src = amigoSecreto[clave].foto;
 
-        document.getElementById("link").innerHTML =
-            `<strong>📩 Envía este link:</strong><br>${url}`;
-
-        document.getElementById("resultado").innerHTML = `
-            "${mensaje}" <br><br>
-            ✨ Que el Señor te bendiga y te guarde,
-            y haga resplandecer su rostro sobre ti.
-            <br><strong>Números 6:24-26</strong>
-        `;
-    }
-
-    // Mostrar mensaje cuando el amigo abre el link
-    const params = new URLSearchParams(window.location.search);
-    const msg = params.get("msg");
-
-    if (msg) {
-        document.getElementById("contenedor").innerHTML = `
-            <img src="img/navidad.jpg" alt="Bendición">
-
-            <h2>🎁 Tu Amigo Secreto</h2>
-
-            <p>"${decodeURIComponent(msg)}"</p>
-
-            <div class="bendicion">
-                ✝️ Que Dios te bendiga, te guarde
-                y llene tu corazón de paz y alegría.
-                <br><strong>Números 6:24-26</strong>
-            </div>
-        `;
+            // Generar link de WhatsApp
+            const numero = amigoSecreto[clave].whatsapp;
+            const texto = encodeURIComponent("¡Gracias por el regalo de amigo secreto!");
+            document.getElementById("whatsapp").href = `https://wa.me/${numero}?text=${texto}`;
+        } else {
+            alert("Clave incorrecta. Intenta nuevamente.");
+        }
     }
 </script>
 
