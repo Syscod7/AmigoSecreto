@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Intercambio de Regalos - Amigo Secreto</title>
+    <title>🎁 Amigo Secreto</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,92 +14,115 @@
         }
 
         .card {
-            background: #fff;
-            padding: 30px;
-            width: 350px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            background: white;
+            padding: 25px;
+            width: 380px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.2);
             text-align: center;
         }
 
-        h2 {
-            color: #2c3e50;
+        img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
         }
 
-        input, textarea, button {
+        h2 {
+            color: #8e44ad;
+        }
+
+        textarea, button {
             width: 100%;
-            padding: 10px;
             margin-top: 10px;
-            border-radius: 5px;
+            padding: 10px;
+            border-radius: 6px;
             border: 1px solid #ccc;
         }
 
         button {
-            background-color: #3498db;
+            background-color: #8e44ad;
             color: white;
             border: none;
             cursor: pointer;
         }
 
         button:hover {
-            background-color: #2980b9;
-        }
-
-        .hidden {
-            display: none;
+            background-color: #732d91;
         }
 
         .bendicion {
             margin-top: 15px;
             font-style: italic;
-            color: #2d572c;
+            color: #2c3e50;
+        }
+
+        .link {
+            margin-top: 10px;
+            font-size: 14px;
+            word-break: break-all;
+            color: #2980b9;
         }
     </style>
 </head>
 <body>
 
-<div class="card" id="login">
-    <h2>🎁 Amigo Secreto</h2>
-    <p>Ingresa tu DNI para continuar</p>
-    <input type="password" id="dni" placeholder="Ingresa tu DNI">
-    <button onclick="validar()">Ingresar</button>
-</div>
+<div class="card" id="contenedor">
+    <img src="img/navidad.jpg" alt="Bendición de Navidad">
 
-<div class="card hidden" id="mensaje">
-    <h2>💝 Para mi Amigo Secreto</h2>
-    <textarea id="texto" rows="4" placeholder="Escribe tu mensaje aquí..."></textarea>
-    <button onclick="mostrarMensaje()">Enviar mensaje</button>
-    <div class="bendicion hidden" id="resultado"></div>
+    <h2>💝 Amigo Secreto</h2>
+
+    <p>Escribe tu mensaje:</p>
+    <textarea id="mensaje" rows="4"
+        placeholder="Que Dios te bendiga y llene tu vida de paz y amor..."></textarea>
+
+    <button onclick="generarLink()">Generar link</button>
+
+    <div class="link" id="link"></div>
+    <div class="bendicion" id="resultado"></div>
 </div>
 
 <script>
-    // DNIs permitidos (puedes cambiar o agregar más)
-    const dnisValidos = ["12345678", "87654321", "11223344"];
+    function generarLink() {
+        const mensaje = document.getElementById("mensaje").value;
 
-    function validar() {
-        const dni = document.getElementById("dni").value;
-        if (dnisValidos.includes(dni)) {
-            document.getElementById("login").classList.add("hidden");
-            document.getElementById("mensaje").classList.remove("hidden");
-        } else {
-            alert("DNI incorrecto. Intenta nuevamente.");
-        }
-    }
-
-    function mostrarMensaje() {
-        const texto = document.getElementById("texto").value;
-        if (texto.trim() === "") {
+        if (mensaje.trim() === "") {
             alert("Escribe un mensaje primero 😊");
             return;
         }
 
+        const mensajeCodificado = encodeURIComponent(mensaje);
+        const url = `${window.location.origin}${window.location.pathname}?msg=${mensajeCodificado}`;
+
+        document.getElementById("link").innerHTML =
+            `<strong>📩 Envía este link:</strong><br>${url}`;
+
         document.getElementById("resultado").innerHTML = `
-            "${texto}" <br><br>
-            ✨ Que Dios te bendiga, te guarde y llene tu vida de amor, paz y alegría.
-            <br><br>
-            <strong>Números 6:24-26</strong>
+            "${mensaje}" <br><br>
+            ✨ Que el Señor te bendiga y te guarde,
+            y haga resplandecer su rostro sobre ti.
+            <br><strong>Números 6:24-26</strong>
         `;
-        document.getElementById("resultado").classList.remove("hidden");
+    }
+
+    // Mostrar mensaje cuando el amigo abre el link
+    const params = new URLSearchParams(window.location.search);
+    const msg = params.get("msg");
+
+    if (msg) {
+        document.getElementById("contenedor").innerHTML = `
+            <img src="img/navidad.jpg" alt="Bendición">
+
+            <h2>🎁 Tu Amigo Secreto</h2>
+
+            <p>"${decodeURIComponent(msg)}"</p>
+
+            <div class="bendicion">
+                ✝️ Que Dios te bendiga, te guarde
+                y llene tu corazón de paz y alegría.
+                <br><strong>Números 6:24-26</strong>
+            </div>
+        `;
     }
 </script>
 
