@@ -2,128 +2,155 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>🎁 Regalo de Amigo Secreto</title>
+<title>🎁 Amigo Secreto</title>
+
 <style>
     body {
-        font-family: Arial, sans-serif;
-        background: linear-gradient(to right, #fdfbfb, #ebedee);
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(135deg, #0f2027, #2c5364);
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
+        margin: 0;
     }
 
     .card {
-        background: white;
-        padding: 25px;
-        width: 380px;
-        border-radius: 12px;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+        background: #ffffff;
+        width: 400px;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.25);
         text-align: center;
+        animation: fadeIn 1s ease;
     }
 
-    input, button {
+    h2 {
+        color: #1e3c72;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #444;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    input {
         width: 100%;
-        padding: 10px;
-        margin-top: 12px;
-        border-radius: 6px;
+        padding: 12px;
+        margin-top: 15px;
+        border-radius: 8px;
         border: 1px solid #ccc;
+        font-size: 15px;
     }
 
     button {
-        background-color: #8e44ad;
+        width: 100%;
+        margin-top: 15px;
+        padding: 12px;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
         color: white;
         border: none;
+        border-radius: 8px;
+        font-size: 15px;
         cursor: pointer;
     }
 
     button:hover {
-        background-color: #732d91;
+        opacity: 0.9;
     }
 
     img {
         width: 100%;
-        border-radius: 10px;
-        margin-bottom: 15px;
+        border-radius: 12px;
+        margin: 15px 0;
     }
 
-    .bendicion {
-        margin-top: 15px;
-        font-style: italic;
-        color: #2c3e50;
+    .mensaje {
+        background: #f1f6fb;
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 10px;
+        font-size: 15px;
     }
 
     .whatsapp {
-        margin-top: 15px;
         display: inline-block;
+        margin-top: 18px;
+        padding: 12px 18px;
         background-color: #25D366;
         color: white;
-        padding: 10px 15px;
-        border-radius: 8px;
+        border-radius: 10px;
         text-decoration: none;
         font-weight: bold;
+        font-size: 14px;
     }
 
     .whatsapp:hover {
-        background-color: #1ebe57;
+        background-color: #1ebe5c;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 </style>
 </head>
+
 <body>
 
+<!-- LOGIN -->
 <div class="card" id="login">
     <h2>🎁 Amigo Secreto</h2>
-    <p>Ingresa tu DNI:</p>
-    <input type="password" id="clave" placeholder="Tu clave secreta">
-    <button onclick="validarClave()">Ingresar</button>
+    <p>Ingresa tu clave para ver tu sorpresa</p>
+    <input type="password" id="clave" placeholder="Ingresa tu clave">
+    <button onclick="validar()">Ingresar</button>
 </div>
 
+<!-- REGALO -->
 <div class="card" id="regalo" style="display:none;">
-    <h2>💝 Tu Regalo Virtual</h2>
-    <img id="foto" src="" alt="Foto del amigo secreto">
-    <p id="mensaje"></p>
-    <div class="bendicion">
-        Este detalle es para reconocer a una persona que siempre ayuda,
-        que apoya con sinceridad y que aporta desde la humildad.
-        Personas como tú hacen que el entorno de trabajo sea más humano
-        y agradable para todos.
-        ¡Que este pequeño gesto te saque una sonrisa y te recuerde
-        lo bien que impactas a los demás!
-        ✝️ Que Dios te bendiga, te guarde y llene tu vida de amor y alegría.  
-        <br><strong>Números 6:24-26</strong>
-    </div>
-    <a id="whatsapp" class="whatsapp" href="#" target="_blank">🙏 Agradecer en WhatsApp</a>
+    <h2>💙 Para Ti</h2>
+    <img id="foto" src="" alt="Foto del regalo">
+
+    <div class="mensaje" id="texto"></div>
+
+    <a id="btnWhatsapp" class="whatsapp" target="_blank">
+        💬 Agradecer por WhatsApp
+    </a>
 </div>
 
 <script>
-    // Claves y datos de los amigos
-    const amigoSecreto = {
+    const datos = {
         "70331233": {
-            mensaje: "Querido amigo, que la paz y el amor de Dios te acompañen siempre.",
             foto: "foto/luis.png",
-            whatsapp: "51922857548" // tu número para recibir mensaje
-        },
-        "70331233": {
-            mensaje: "Te deseo muchas bendiciones y alegría en tu día.",
-            foto: "foto/luis.png",
+            mensaje: `
+                Este detalle es una pequeña muestra de agradecimiento.<br><br>
+                Eres una persona que siempre está dispuesta a ayudar,
+                con humildad y sin esperar nada a cambio, y eso se nota
+                en cada acción.<br><br>
+                Personas como tú hacen que el entorno de trabajo sea
+                más humano, colaborativo y agradable.<br><br>
+                ¡Gracias por tu apoyo y tu buena actitud!
+            `,
             whatsapp: "51922857548"
         }
     };
 
-    function validarClave() {
+    function validar() {
         const clave = document.getElementById("clave").value;
-        if(amigoSecreto[clave]){
+        if (datos[clave]) {
             document.getElementById("login").style.display = "none";
             document.getElementById("regalo").style.display = "block";
-            document.getElementById("mensaje").innerText = amigoSecreto[clave].mensaje;
-            document.getElementById("foto").src = amigoSecreto[clave].foto;
 
-            // Generar link de WhatsApp
-            const numero = amigoSecreto[clave].whatsapp;
-            const texto = encodeURIComponent("¡Gracias por el regalo de amigo secreto!");
-            document.getElementById("whatsapp").href = `https://wa.me/${numero}?text=${texto}`;
+            document.getElementById("foto").src = datos[clave].foto;
+            document.getElementById("texto").innerHTML = datos[clave].mensaje;
+
+            const msg = encodeURIComponent("¡Muchas gracias por el detalle del amigo secreto!");
+            document.getElementById("btnWhatsapp").href =
+                `https://wa.me/${datos[clave].whatsapp}?text=${msg}`;
         } else {
-            alert("Clave incorrecta. Intenta nuevamente.");
+            alert("Clave incorrecta");
         }
     }
 </script>
