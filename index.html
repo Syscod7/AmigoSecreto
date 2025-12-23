@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Intercambio de Regalos - Amigo Secreto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #fdfbfb, #ebedee);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: #fff;
+            padding: 30px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #2c3e50;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .bendicion {
+            margin-top: 15px;
+            font-style: italic;
+            color: #2d572c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card" id="login">
+    <h2>🎁 Amigo Secreto</h2>
+    <p>Ingresa tu DNI para continuar</p>
+    <input type="password" id="dni" placeholder="Ingresa tu DNI">
+    <button onclick="validar()">Ingresar</button>
+</div>
+
+<div class="card hidden" id="mensaje">
+    <h2>💝 Para mi Amigo Secreto</h2>
+    <textarea id="texto" rows="4" placeholder="Escribe tu mensaje aquí..."></textarea>
+    <button onclick="mostrarMensaje()">Enviar mensaje</button>
+    <div class="bendicion hidden" id="resultado"></div>
+</div>
+
+<script>
+    // DNIs permitidos (puedes cambiar o agregar más)
+    const dnisValidos = ["12345678", "87654321", "11223344"];
+
+    function validar() {
+        const dni = document.getElementById("dni").value;
+        if (dnisValidos.includes(dni)) {
+            document.getElementById("login").classList.add("hidden");
+            document.getElementById("mensaje").classList.remove("hidden");
+        } else {
+            alert("DNI incorrecto. Intenta nuevamente.");
+        }
+    }
+
+    function mostrarMensaje() {
+        const texto = document.getElementById("texto").value;
+        if (texto.trim() === "") {
+            alert("Escribe un mensaje primero 😊");
+            return;
+        }
+
+        document.getElementById("resultado").innerHTML = `
+            "${texto}" <br><br>
+            ✨ Que Dios te bendiga, te guarde y llene tu vida de amor, paz y alegría.
+            <br><br>
+            <strong>Números 6:24-26</strong>
+        `;
+        document.getElementById("resultado").classList.remove("hidden");
+    }
+</script>
+
+</body>
+</html>
